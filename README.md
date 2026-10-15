@@ -1,3 +1,3 @@
-# Deorelt Games — официальный сайт
+# DeorelTGames — официальный сайт
 
-Сайт разработчика игр Deorelt Games.
+Сайт студии DeorelTGames (Mobile Games Development).
