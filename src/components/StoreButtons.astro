@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import { t, type Lang } from '../i18n';
+import type { Store } from '../data';
+
+interface Props {
+  lang: Lang;
+  stores: Store[];
+}
+const { lang, stores } = Astro.props;
+const s = t[lang].stores;
+---
+
+<div class="stores">
+  {stores.map((store) =>
+    store.status === 'available' && store.url ? (
+      <a class="btn btn-fire" href={store.url} target="_blank" rel="noopener">
+        <Icon name={store.id} />
+        {s[store.id]}
+      </a>
+    ) : (
+      <span class="btn" aria-disabled="true">
+        <Icon name={store.id} />
+        {s[store.id]}
+        <small>{s.soon}</small>
+      </span>
+    ),
+  )}
+</div>
+
+<style>
+  .stores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

@@ -1,0 +1,297 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Embers from '../components/Embers.astro';
+import YouTube from '../components/YouTube.astro';
+import StoreButtons from '../components/StoreButtons.astro';
+import Icon from '../components/Icon.astro';
+import { t, href, asset, type Lang } from '../i18n';
+import { pickTrailer, type Game } from '../data';
+
+interface Props {
+  lang: Lang;
+  game: Game;
+}
+const { lang, game } = Astro.props;
+const s = t[lang];
+
+interface Video {
+  id: string;
+  title: string;
+  native: boolean;
+  dlcIndex?: number;
+}
+
+// Every trailer, each in the page language when available.
+const videos: Video[] = [];
+const main = pickTrailer(game.trailer, lang);
+if (main) videos.push({ ...main, title: `${game.title} — ${s.game.trailer}` });
+game.dlc.forEach((d, i) => {
+  const v = pickTrailer(d.trailer, lang);
+  if (v) videos.push({ ...v, title: `${d.title[lang]} — ${s.game.trailer}`, dlcIndex: i });
+});
+
+// Hero shows the first video in the page language; the rest go further down.
+const featured = videos.find((v) => v.native) ?? videos[0];
+const dlcVideo = (i: number) => videos.find((v) => v.dlcIndex === i && v !== featured);
+const otherVideos = videos.filter((v) => v !== featured && v.dlcIndex === undefined);
+
+const videoProps = (v: Video) => ({
+  id: v.id,
+  title: v.title,
+  playLabel: s.game.play,
+  note: v.native ? undefined : s.game.inRussian,
+  captions: v.native ? undefined : lang,
+});
+
+const privacyUrl = asset(game.privacyPolicy) + (lang === 'en' ? '#en' : '');
+---
+
+<Layout
+  lang={lang}
+  path={`/games/${game.slug}/`}
+  title={game.title}
+  description={`${game.tagline[lang]} ${game.description[lang]}`}
+>
+  <section class="hero">
+    <div class="backdrop"><Embers /></div>
+    <div class="container">
+      <a class="back" href={`${href(lang, '/')}#games`}><Icon name="arrow-left" />{s.game.back}</a>
+      <div class="hero-grid">
+        <div class="info">
+          <span class="badge">{game.genre[lang]}</span>
+          <h1>{game.title}</h1>
+          <p class="tagline fire-text">{game.tagline[lang]}</p>
+          <p class="desc">{game.description[lang]}</p>
+          <StoreButtons lang={lang} stores={game.stores} />
+          <a class="privacy" href={privacyUrl}>{s.game.privacy}</a>
+        </div>
+        {featured && (
+          <div class="media">
+            <YouTube {...videoProps(featured)} />
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-title"><h2>{s.game.screenshots}</h2></div>
+      <div class="shots">
+        {[1, 2, 3, 4].map(() => (
+          <div class="shot">
+            <span>{s.game.screenshotsSoon}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {game.dlc.map((d, i) => {
+    const v = dlcVideo(i);
+    return (
+      <section class="section dlc">
+        <div class="container">
+          <div class="dlc-card">
+            <div class="dlc-info">
+              <span class="badge">{s.game.dlcTitle}</span>
+              <h2>{d.title[lang]}</h2>
+              <p>{d.description[lang]}</p>
+              {!v && <p class="hint">{s.game.dlcTrailerAbove}</p>}
+            </div>
+            {v && (
+              <div class="dlc-media">
+                <YouTube {...videoProps(v)} />
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  {otherVideos.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <div class="section-title"><h2>{s.game.otherVideos}</h2></div>
+        <div class="videos">
+          {otherVideos.map((v) => <YouTube {...videoProps(v)} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section final">
+    <div class="container final-inner">
+      <h2>{game.title}</h2>
+      <p class="fire-text tagline">{game.tagline[lang]}</p>
+      <StoreButtons lang={lang} stores={game.stores} />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 32px 0 80px;
+    background:
+      radial-gradient(ellipse 50% 60% at 78% 45%, rgb(255 90 0 / 0.22), transparent 70%),
+      radial-gradient(ellipse 40% 50% at 0% 100%, rgb(255 60 0 / 0.14), transparent 70%),
+      var(--bg);
+  }
+
+  .hero .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 36px;
+  }
+
+  .back:hover {
+    color: var(--text);
+  }
+
+  .back :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: 1fr 1.15fr;
+      gap: 56px;
+    }
+  }
+
+  h1 {
+    font-size: clamp(38px, 6.5vw, 68px);
+    margin: 16px 0 8px;
+  }
+
+  .tagline {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 3vw, 26px);
+    margin-bottom: 18px;
+    width: fit-content;
+  }
+
+  .desc {
+    color: var(--muted);
+    font-size: 18px;
+    max-width: 520px;
+    margin-bottom: 28px;
+  }
+
+  .privacy {
+    display: inline-block;
+    margin-top: 20px;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .privacy:hover {
+    color: var(--text);
+  }
+
+  /* Screenshot placeholders */
+  .shots {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr));
+  }
+
+  .shot {
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    padding: 16px;
+    text-align: center;
+    border-radius: var(--radius);
+    color: var(--muted);
+    font-size: 14px;
+    background:
+      repeating-linear-gradient(-45deg, transparent 0 14px, rgb(255 120 0 / 0.04) 14px 16px),
+      var(--surface);
+    border: 1px dashed var(--line);
+  }
+
+  /* DLC */
+  .dlc {
+    padding-top: 0;
+  }
+
+  .dlc-card {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    padding: clamp(24px, 5vw, 48px);
+    border-radius: calc(var(--radius) + 6px);
+    background:
+      radial-gradient(ellipse 60% 80% at 0% 0%, rgb(255 90 0 / 0.2), transparent 60%),
+      var(--surface);
+    box-shadow: inset 0 0 0 1px rgb(255 120 0 / 0.3);
+  }
+
+  @media (min-width: 900px) {
+    .dlc-card:has(.dlc-media) {
+      grid-template-columns: 1fr 1.2fr;
+    }
+  }
+
+  .dlc-info h2 {
+    margin-top: 16px;
+  }
+
+  .dlc-info p {
+    color: var(--muted);
+    font-size: 18px;
+  }
+
+  .hint {
+    font-size: 15px !important;
+  }
+
+  .videos {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  }
+
+  /* Final call to action */
+  .final {
+    text-align: center;
+    background:
+      radial-gradient(ellipse 50% 70% at 50% 100%, rgb(255 90 0 / 0.2), transparent 70%),
+      var(--bg-2);
+  }
+
+  .final-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .final h2 {
+    margin-bottom: 6px;
+  }
+
+  .final :global(.stores) {
+    justify-content: center;
+  }
+</style>

@@ -1,0 +1,139 @@
+---
+import Mark from './Mark.astro';
+import Socials from './Socials.astro';
+import EmailLink from './EmailLink.astro';
+import Icon from './Icon.astro';
+import { t, href, asset, type Lang } from '../i18n';
+import { games } from '../data';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container grid">
+    <div class="about">
+      <a class="brand" href={href(lang, '/')}>
+        <Mark size={48} />
+        <span>
+          <strong>DeorelTGames</strong>
+          <small>Mobile Games Development</small>
+        </span>
+      </a>
+      <Socials lang={lang} />
+    </div>
+    <div class="col">
+      <h3>{s.nav.games}</h3>
+      {games.map((g) => <a href={href(lang, `/games/${g.slug}/`)}>{g.title}</a>)}
+    </div>
+    <div class="col">
+      <h3>{s.nav.contacts}</h3>
+      <EmailLink class="mail">
+        <Icon name="mail" />
+      </EmailLink>
+      {games.map((g) => (
+        <a href={asset(g.privacyPolicy) + (lang === 'en' ? '#en' : '')}>
+          {s.footer.privacy} — {g.title}
+        </a>
+      ))}
+    </div>
+  </div>
+  <div class="container legal">© {year} DeorelTGames. {s.footer.rights}</div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--bg-2);
+    border-top: 1px solid rgb(255 120 0 / 0.16);
+    padding: 56px 0 28px;
+    font-size: 15px;
+  }
+
+  .grid {
+    display: grid;
+    gap: 36px;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .grid {
+      grid-template-columns: 1.4fr 1fr 1.2fr;
+    }
+  }
+
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+
+  .brand strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 20px;
+  }
+
+  .brand small {
+    color: var(--muted);
+    letter-spacing: 0.18em;
+    font-size: 11px;
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fire-3);
+    margin-bottom: 14px;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .col a {
+    color: var(--muted);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .col a:hover {
+    color: var(--text);
+  }
+
+  .col :global(.mail) {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .col :global(.mail svg) {
+    width: 18px;
+    height: 18px;
+    flex: none;
+  }
+
+  .legal {
+    margin-top: 44px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+  }
+</style>

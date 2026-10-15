@@ -1,0 +1,13 @@
+---
+import { studio } from '../data';
+
+interface Props {
+  class?: string;
+}
+const [user, domain] = studio.email.split('@');
+---
+
+<a class={Astro.props.class} href="#contacts" data-mail-user={user} data-mail-domain={domain}>
+  <slot />
+  <span data-mail-label>{user} [at] {domain}</span>
+</a>

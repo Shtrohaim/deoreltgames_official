@@ -1,0 +1,317 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Mark from '../components/Mark.astro';
+import Embers from '../components/Embers.astro';
+import GameCover from '../components/GameCover.astro';
+import Socials from '../components/Socials.astro';
+import EmailLink from '../components/EmailLink.astro';
+import Icon from '../components/Icon.astro';
+import { t, href, type Lang } from '../i18n';
+import { games, studio } from '../data';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+---
+
+<Layout lang={lang} path="/">
+  <section class="hero">
+    <div class="backdrop"><Embers /></div>
+    <div class="container hero-inner">
+      <Mark size="clamp(120px, 30vw, 168px)" />
+      <h1>Deorel<span class="fire-text">T</span>Games</h1>
+      <p class="tagline"><span>{studio.tagline}</span></p>
+      <p class="lead">{s.hero.lead}</p>
+      <div class="cta">
+        <a class="btn btn-fire" href="#games">{s.hero.ctaGames}</a>
+        <a class="btn btn-ghost" href={studio.social.youtube[lang]} target="_blank" rel="noopener">
+          <Icon name="youtube" />YouTube
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="games">
+    <div class="container">
+      <div class="section-title"><h2>{s.games.title}</h2></div>
+      <div class="games">
+        {games.map((g) => (
+          <a class="card" href={href(lang, `/games/${g.slug}/`)}>
+            <GameCover title={g.title} tagline={g.tagline[lang]} />
+            <div class="card-body">
+              <div class="tags">
+                <span class="badge">{g.genre[lang]}</span>
+                {g.dlc.length > 0 && <span class="badge">+ {s.games.dlcBadge}</span>}
+              </div>
+              <h3>{g.title}</h3>
+              <p>{g.description[lang]}</p>
+              <span class="more">{s.games.more} →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section about" id="about">
+    <div class="container">
+      <div class="section-title"><h2>{s.about.title}</h2></div>
+      <p class="about-text">{s.about.text}</p>
+      <div class="points">
+        {s.about.points.map((p, i) => (
+          <div class="point">
+            <span class="num">0{i + 1}</span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section contacts" id="contacts">
+    <div class="container">
+      <div class="contact-card">
+        <div class="backdrop"></div>
+        <div class="contact-inner">
+          <div class="section-title"><h2>{s.contacts.title}</h2></div>
+          <p>{s.contacts.lead}</p>
+          <EmailLink class="email">
+            <Icon name="mail" />
+          </EmailLink>
+          <Socials lang={lang} variant="buttons" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: min(88vh, 820px);
+    display: grid;
+    place-items: center;
+    padding: 72px 0 96px;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 42%, rgb(255 90 0 / 0.22), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 85% 90%, rgb(255 60 0 / 0.18), transparent 70%),
+      radial-gradient(ellipse 40% 40% at 10% 85%, rgb(255 60 0 / 0.12), transparent 70%),
+      var(--bg);
+    overflow: hidden;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-inner > :global(.mark) {
+    margin-bottom: 28px;
+  }
+
+  h1 {
+    font-size: clamp(44px, 10vw, 104px);
+    margin: 0;
+    text-shadow: 0 4px 0 #000, 0 0 40px rgb(255 100 0 / 0.25);
+  }
+
+  .tagline {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 14px 0 24px;
+    font-weight: 800;
+    font-size: clamp(12px, 2.4vw, 16px);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .tagline::before,
+  .tagline::after {
+    content: '';
+    width: clamp(24px, 8vw, 80px);
+    height: 2px;
+    background: var(--fire);
+  }
+
+  .lead {
+    max-width: 560px;
+    font-size: clamp(17px, 2.4vw, 20px);
+    color: var(--text);
+    opacity: 0.9;
+  }
+
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    margin-top: 12px;
+  }
+
+  /* Games */
+  .games {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    background: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 0 0 1px var(--line);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 0 1px var(--fire-2), 0 24px 50px -24px rgb(255 90 0 / 0.6);
+  }
+
+  .card-body {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .card h3 {
+    font-size: 24px;
+  }
+
+  .card p {
+    color: var(--muted);
+    font-size: 16px;
+  }
+
+  .more {
+    margin-top: auto;
+    font-family: var(--font-display);
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--fire-2);
+  }
+
+  /* About */
+  .about {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  }
+
+  .about-text {
+    max-width: 760px;
+    font-size: clamp(18px, 2.4vw, 21px);
+    margin-bottom: 40px;
+  }
+
+  .points {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+
+  .point {
+    padding: 24px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+
+  .num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 30px;
+    margin-bottom: 10px;
+    background: var(--fire);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .point h3 {
+    font-size: 20px;
+  }
+
+  .point p {
+    color: var(--muted);
+    margin: 0;
+    font-size: 16px;
+  }
+
+  /* Contacts */
+  .contacts {
+    background: var(--bg-2);
+  }
+
+  .contact-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: calc(var(--radius) + 6px);
+    padding: clamp(28px, 6vw, 64px);
+    background:
+      radial-gradient(ellipse 70% 90% at 100% 0%, rgb(255 90 0 / 0.25), transparent 60%),
+      var(--surface);
+    box-shadow: inset 0 0 0 1px rgb(255 120 0 / 0.3);
+  }
+
+  .contact-card .backdrop::before {
+    left: auto;
+    right: -20%;
+  }
+
+  .contact-card .backdrop::after {
+    display: none;
+  }
+
+  .contact-inner {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+  }
+
+  .contact-inner > p {
+    color: var(--muted);
+    font-size: 18px;
+  }
+
+  .contact-inner :global(.email) {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0 28px;
+    font-family: var(--font-display);
+    font-size: clamp(18px, 4vw, 30px);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  .contact-inner :global(.email svg) {
+    width: 1.1em;
+    height: 1.1em;
+    color: var(--fire-2);
+    flex: none;
+  }
+
+  .contact-inner :global(.email:hover) {
+    color: var(--fire-3);
+  }
+</style>

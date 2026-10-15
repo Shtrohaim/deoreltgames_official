@@ -1,0 +1,58 @@
+---
+// Stylised placeholder cover, used until real artwork is added.
+interface Props {
+  title: string;
+  tagline: string;
+}
+const { title, tagline } = Astro.props;
+---
+
+<div class="cover" aria-hidden="true">
+  <span class="glow"></span>
+  <span class="title">{title}</span>
+  <span class="tagline">{tagline}</span>
+</div>
+
+<style>
+  .cover {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 22px;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(-58deg, transparent 0 22px, rgb(255 120 0 / 0.05) 22px 24px),
+      linear-gradient(160deg, #2a1608 0%, #120a06 55%, #0a0706 100%);
+  }
+
+  .glow {
+    position: absolute;
+    right: -10%;
+    top: -30%;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(255 110 0 / 0.55), rgb(255 60 0 / 0.15) 45%, transparent 70%);
+    filter: blur(6px);
+  }
+
+  .title {
+    position: relative;
+    font-family: var(--font-display);
+    font-size: clamp(24px, 4vw, 34px);
+    line-height: 1.05;
+    max-width: 80%;
+  }
+
+  .tagline {
+    position: relative;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fire-3);
+  }
+</style>

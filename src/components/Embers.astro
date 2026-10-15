@@ -1,0 +1,21 @@
+---
+// Fixed pseudo-random layout so the build output is stable.
+const embers = Array.from({ length: 22 }, (_, i) => {
+  const r = (n: number) => ((Math.sin(i * 12.9898 + n * 78.233) * 43758.5453) % 1 + 1) % 1;
+  return {
+    left: (r(1) * 100).toFixed(1),
+    dur: (7 + r(2) * 9).toFixed(1),
+    delay: (-r(3) * 16).toFixed(1),
+    dx: Math.round((r(4) - 0.5) * 160),
+    size: (2 + r(5) * 3).toFixed(1),
+  };
+});
+---
+
+<div class="embers" aria-hidden="true">
+  {embers.map((e) => (
+    <i
+      style={`left:${e.left}%;width:${e.size}px;height:${e.size}px;animation-duration:${e.dur}s;animation-delay:${e.delay}s;--dx:${e.dx}px`}
+    />
+  ))}
+</div>

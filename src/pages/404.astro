@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { href } from '../i18n';
+---
+
+<Layout lang="ru" path="/" title="404">
+  <section class="nf">
+    <div class="container">
+      <h1 class="fire-text">404</h1>
+      <p>Страница сгорела. Page not found.</p>
+      <a class="btn btn-fire" href={href('ru', '/')}>На главную</a>
+      <a class="btn btn-ghost" href={href('en', '/')}>Home</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .nf {
+    padding: 120px 0;
+    text-align: center;
+  }
+  h1 {
+    font-size: clamp(96px, 22vw, 200px);
+    margin: 0;
+    width: fit-content;
+    margin-inline: auto;
+  }
+  p {
+    color: var(--muted);
+    font-size: 20px;
+    margin-bottom: 28px;
+  }
+</style>

@@ -1,0 +1,68 @@
+---
+import Icon from './Icon.astro';
+import { studio } from '../data';
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+  variant?: 'buttons' | 'icons';
+}
+const { lang, variant = 'icons' } = Astro.props;
+const links = [
+  { id: 'youtube' as const, label: 'YouTube', url: studio.social.youtube[lang] },
+  { id: 'tiktok' as const, label: 'TikTok', url: studio.social.tiktok[lang] },
+];
+---
+
+{variant === 'buttons' ? (
+  <div class="social-buttons">
+    {links.map((l) => (
+      <a class="btn btn-ghost" href={l.url} target="_blank" rel="noopener">
+        <Icon name={l.id} />
+        {l.label}
+      </a>
+    ))}
+  </div>
+) : (
+  <div class="social-icons">
+    {links.map((l) => (
+      <a href={l.url} target="_blank" rel="noopener" aria-label={l.label} title={l.label}>
+        <Icon name={l.id} />
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .social-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .social-icons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .social-icons a {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: var(--surface-2);
+    color: var(--muted);
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .social-icons a:hover {
+    color: #1a0d04;
+    background: var(--fire);
+  }
+
+  .social-icons svg {
+    width: 20px;
+    height: 20px;
+  }
+</style>

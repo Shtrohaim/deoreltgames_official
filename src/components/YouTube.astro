@@ -1,0 +1,133 @@
+---
+// Click-to-load player: only the thumbnail loads until the visitor presses play.
+import Icon from './Icon.astro';
+
+interface Props {
+  id: string;
+  title: string;
+  playLabel: string;
+  /** Shown as a tag when the video is not in the page language. */
+  note?: string;
+  /** Ask YouTube to show subtitles in this language. */
+  captions?: string;
+}
+const { id, title, playLabel, note, captions } = Astro.props;
+const params = new URLSearchParams({ autoplay: '1', rel: '0' });
+if (captions) {
+  params.set('cc_load_policy', '1');
+  params.set('cc_lang_pref', captions);
+}
+const src = `https://www.youtube-nocookie.com/embed/${id}?${params}`;
+---
+
+<figure class="yt">
+  <div class="frame" data-src={src} data-title={title}>
+    <button type="button" aria-label={`${playLabel}: ${title}`}>
+      <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+      <span class="play"><Icon name="play" /></span>
+    </button>
+  </div>
+  <figcaption>
+    <span>{title}</span>
+    {note && <span class="badge">{note}</span>}
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.yt .frame').forEach((frame) => {
+    frame.querySelector('button')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = frame.dataset.src!;
+      iframe.title = frame.dataset.title ?? 'YouTube';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      frame.replaceChildren(iframe);
+    });
+  });
+</script>
+
+<style>
+  .yt {
+    margin: 0;
+  }
+
+  .frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #000;
+    box-shadow:
+      0 0 0 1px rgb(255 120 0 / 0.35),
+      0 20px 60px -20px rgb(255 80 0 / 0.45);
+  }
+
+  .frame button {
+    all: unset;
+    position: absolute;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  .frame button:focus-visible {
+    outline: 2px solid var(--fire-3);
+    outline-offset: -4px;
+  }
+
+  .frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease, filter 0.4s ease;
+    filter: saturate(1.05) brightness(0.85);
+  }
+
+  .frame button:hover img {
+    transform: scale(1.03);
+    filter: saturate(1.15) brightness(0.95);
+  }
+
+  .play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 76px;
+    height: 76px;
+    margin: -38px 0 0 -38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--fire);
+    color: #1a0d04;
+    box-shadow: 0 0 0 8px rgb(255 120 0 / 0.2), var(--glow);
+    transition: transform 0.2s ease;
+  }
+
+  .frame button:hover .play {
+    transform: scale(1.08);
+  }
+
+  .play :global(svg) {
+    width: 34px;
+    height: 34px;
+    margin-left: 4px;
+  }
+
+  .frame :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  figcaption {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+</style>

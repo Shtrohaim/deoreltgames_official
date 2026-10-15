@@ -1,0 +1,34 @@
+{
+  "slug": "hard-cooking-simulator",
+  "title": "Hard Cooking Simulator",
+  "order": 1,
+  "genre": { "ru": "Кулинарный симулятор", "en": "Cooking simulator" },
+  "tagline": { "ru": "Попробуй не сжечь!", "en": "Try not to burn it!" },
+  "description": {
+    "ru": "Сковородка, огонь и секунды до катастрофы. Готовь блюда, следи за жаром и не дай ужину превратиться в угли.",
+    "en": "A pan, a fire and seconds to disaster. Cook dishes, watch the heat and don't let dinner turn to charcoal."
+  },
+  "trailer": {
+    "ru": "TdFDSprMFrg",
+    "en": null
+  },
+  "privacyPolicy": "/games/hard-cooking-simulator/privacy/",
+  "legacyPrivacyPolicy": "https://shtrohaim.github.io/hard-cooking-simulator-privacy/",
+  "stores": [
+    { "id": "rustore", "url": "https://www.rustore.ru/catalog/app/com.DeoTGames.HardCookingSimulator", "status": "available" },
+    { "id": "google-play", "url": null, "status": "coming-soon" }
+  ],
+  "dlc": [
+    {
+      "title": { "ru": "Проделки Полти", "en": "Polti's Tricks" },
+      "description": {
+        "ru": "Новое дополнение: Полти снова хулиганит на кухне.",
+        "en": "A new expansion: Polti is up to mischief in the kitchen again."
+      },
+      "trailer": {
+        "ru": "48AhzwLPAlc",
+        "en": "0sFxoL4QGtU"
+      }
+    }
+  ]
+}
