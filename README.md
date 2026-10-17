@@ -1,8 +1,8 @@
 # DeorelTGames — официальный сайт
 
-Сайт DeorelTGames — инди-разработчика мобильных игр (Mobile Games Development): https://shtrohaim.github.io/deoreltgames_official/
+Сайт DeorelTGames — инди-разработчика мобильных игр (Mobile Games Development): https://deoreltgames.ru/
 
-Сделан на [Astro](https://astro.build), публикуется на GitHub Pages автоматически при каждом push в `main`.
+Сделан на [Astro](https://astro.build), публикуется на GitHub Pages (домен deoreltgames.ru) автоматически при каждом push в `main`.
 
 ## Запуск локально
 
@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Сайт откроется на http://localhost:4321/deoreltgames_official/
+Сайт откроется на http://localhost:4321/
 
 ## Где что лежит
 
@@ -21,6 +21,3 @@ npm run dev
 - `src/styles/global.css` — цвета и общий стиль.
 - `public/games/<игра>/privacy/` — политики конфиденциальности.
 
-## Свой сервер
-
-Инструкция по переезду на VPS с собственным доменом: [deploy/README.md](deploy/README.md).

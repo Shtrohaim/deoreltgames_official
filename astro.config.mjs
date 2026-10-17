@@ -1,9 +1,9 @@
 import { defineConfig } from 'astro/config';
 
-// Defaults: GitHub Pages at https://shtrohaim.github.io/deoreltgames_official/
-// For the VPS build set SITE_URL=https://<domain> and BASE_PATH=/
-const site = process.env.SITE_URL ?? 'https://shtrohaim.github.io';
-const base = process.env.BASE_PATH ?? '/deoreltgames_official';
+// GitHub Pages with the custom domain https://deoreltgames.ru/
+// SITE_URL / BASE_PATH override this, e.g. for a preview under a sub-path.
+const site = process.env.SITE_URL ?? 'https://deoreltgames.ru';
+const base = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   site,
