@@ -7,21 +7,26 @@ import { getDoc, type DocId } from '../legal';
 
 interface Props {
   lang: Lang;
-  game: Game;
+  /** Omit for documents about the site itself (content/legal/site/). */
+  game?: Game;
   doc: DocId;
 }
 const { lang, game, doc } = Astro.props;
 const s = t[lang];
-const legal = getDoc(game.slug, doc, lang)!;
-const title = s.legal[doc];
+const legal = getDoc(game?.slug ?? 'site', doc, lang)!;
+const title = game ? s.legal[doc] : s.legal.sitePrivacy;
+const path = game ? `/games/${game.slug}/${doc}/` : `/${doc}/`;
+const back = game
+  ? { href: href(lang, `/games/${game.slug}/`), label: s.legal.backToGame }
+  : { href: href(lang, '/legal/'), label: s.legal.title };
 ---
 
-<Layout lang={lang} path={`/games/${game.slug}/${doc}/`} title={`${title} — ${game.title}`}>
+<Layout lang={lang} path={path} title={game ? `${title} — ${game.title}` : title}>
   <article class="legal">
     <div class="container">
-      <a class="back" href={href(lang, `/games/${game.slug}/`)}><Icon name="arrow-left" />{s.legal.backToGame}</a>
+      <a class="back" href={back.href}><Icon name="arrow-left" />{back.label}</a>
       <header>
-        <span class="badge">{game.title}</span>
+        <span class="badge">{game?.title ?? 'DeorelTGames'}</span>
         <h1>{title}</h1>
         {!legal.native && <p class="note">{s.legal.ruOnly}</p>}
       </header>
