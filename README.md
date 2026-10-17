@@ -20,3 +20,7 @@ npm run dev
 - `src/i18n.ts` — тексты интерфейса на русском и английском.
 - `src/styles/global.css` — цвета и общий стиль.
 - `public/games/<игра>/privacy/` — политики конфиденциальности.
+
+## Свой сервер
+
+Инструкция по переезду на VPS с собственным доменом: [deploy/README.md](deploy/README.md).
