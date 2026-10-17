@@ -3,11 +3,16 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "thumbs": "node scripts/fetch-thumbs.mjs",
+    "predev": "node scripts/fetch-thumbs.mjs",
     "dev": "astro dev",
+    "prebuild": "node scripts/fetch-thumbs.mjs",
     "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {
+    "@fontsource/manrope": "^5.3.0",
+    "@fontsource/russo-one": "^5.3.0",
     "astro": "^5.18.2"
   }
 }

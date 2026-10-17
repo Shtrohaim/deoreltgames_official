@@ -69,7 +69,7 @@ export const t = {
       ruOnly: 'Документ доступен только на русском языке.',
       backToGame: 'К странице игры',
     },
-    footer: { rights: 'Все права защищены.', docs: 'Документы' },
+    footer: { docs: 'Документы' },
   },
   en: {
     meta: {
@@ -125,6 +125,6 @@ export const t = {
       ruOnly: 'This document is available in Russian only.',
       backToGame: 'Back to the game',
     },
-    footer: { rights: 'All rights reserved.', docs: 'Legal' },
+    footer: { docs: 'Legal' },
   },
 } as const;

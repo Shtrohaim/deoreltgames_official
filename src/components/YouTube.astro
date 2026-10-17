@@ -1,6 +1,8 @@
 ---
-// Click-to-load player: only the thumbnail loads until the visitor presses play.
+// Click-to-load player: nothing loads from YouTube until the visitor presses play.
+// Thumbnails are saved to public/video/ by scripts/fetch-thumbs.mjs.
 import Icon from './Icon.astro';
+import { asset } from '../i18n';
 
 interface Props {
   id: string;
@@ -23,7 +25,7 @@ const src = `https://www.youtube-nocookie.com/embed/${id}?${params}`;
 <figure class="yt">
   <div class="frame" data-src={src} data-title={title}>
     <button type="button" aria-label={`${playLabel}: ${title}`}>
-      <img src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`} alt="" loading="lazy" width="480" height="360" />
+      <img src={asset(`/video/${id}.jpg`)} alt="" loading="lazy" width="480" height="360" />
       <span class="play"><Icon name="play" /></span>
     </button>
   </div>

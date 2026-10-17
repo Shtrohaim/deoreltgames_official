@@ -1,4 +1,9 @@
 ---
+// Fonts are bundled with the site so no visitor data goes to Google Fonts.
+import '@fontsource/russo-one/400.css';
+import '@fontsource/manrope/400.css';
+import '@fontsource/manrope/600.css';
+import '@fontsource/manrope/800.css';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -37,12 +42,6 @@ const abs = (l: Lang) => new URL(href(l, path), Astro.site).href;
     <meta property="og:description" content={desc} />
     <meta property="og:url" content={abs(lang)} />
     <meta property="og:locale" content={lang === 'ru' ? 'ru_RU' : 'en_US'} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=Russo+One&display=swap"
-    />
   </head>
   <body>
     <Header lang={lang} path={path} />
