@@ -1,0 +1,13 @@
+---
+import LegalDoc from '../../../../views/LegalDoc.astro';
+import { games, type Game } from '../../../../data';
+import { docsFor, type DocId } from '../../../../legal';
+
+export function getStaticPaths() {
+  return games.flatMap((game) => docsFor(game.slug).map((doc) => ({ params: { slug: game.slug, doc }, props: { game, doc } })));
+}
+
+const { game, doc } = Astro.props as { game: Game; doc: DocId };
+---
+
+<LegalDoc lang="en" game={game} doc={doc} />

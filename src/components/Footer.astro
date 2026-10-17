@@ -3,7 +3,7 @@ import Mark from './Mark.astro';
 import Socials from './Socials.astro';
 import EmailLink from './EmailLink.astro';
 import Icon from './Icon.astro';
-import { t, href, asset, type Lang } from '../i18n';
+import { t, href, type Lang } from '../i18n';
 import { games } from '../data';
 
 interface Props {
@@ -35,11 +35,7 @@ const year = new Date().getFullYear();
       <EmailLink class="mail">
         <Icon name="mail" />
       </EmailLink>
-      {games.map((g) => (
-        <a href={asset(g.privacyPolicy) + (lang === 'en' ? '#en' : '')}>
-          {s.footer.privacy} — {g.title}
-        </a>
-      ))}
+      <a href={href(lang, '/legal/')}>{s.footer.docs}</a>
     </div>
   </div>
   <div class="container legal">© {year} DeorelTGames. {s.footer.rights}</div>

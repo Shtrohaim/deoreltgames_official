@@ -17,14 +17,14 @@ export function asset(path: string): string {
 export const t = {
   ru: {
     meta: {
-      description: 'DeorelTGames — инди-студия мобильных игр. Hard Cooking Simulator и другие проекты.',
+      description: 'DeorelTGames — инди-разработчик мобильных игр. Hard Cooking Simulator и другие проекты.',
     },
-    nav: { games: 'Игры', about: 'О студии', contacts: 'Контакты' },
+    nav: { games: 'Игры', about: 'Обо мне', contacts: 'Контакты' },
     langSwitch: 'EN',
     langSwitchLabel: 'English version',
     hero: {
-      lead: 'Делаем яркие мобильные игры, в которые хочется вернуться.',
-      ctaGames: 'Наши игры',
+      lead: 'Делаю яркие мобильные игры, в которые хочется вернуться.',
+      ctaGames: 'Мои игры',
     },
     games: {
       title: 'Игры',
@@ -32,17 +32,17 @@ export const t = {
       dlcBadge: 'Дополнение',
     },
     about: {
-      title: 'О студии',
-      text: 'DeorelTGames — независимая студия, которая делает мобильные игры для Android. Мы сами придумываем, программируем и выпускаем свои проекты, а новости, трейлеры и закулисье публикуем на YouTube и в TikTok.',
+      title: 'Обо мне',
+      text: 'DeorelTGames — независимый разработчик мобильных игр для Android. Всё делаю сам: придумываю, программирую и выпускаю свои проекты, а новости, трейлеры и закулисье публикую на YouTube и в TikTok.',
       points: [
-        { title: 'Мобильные игры', text: 'Проекты для Android — короткие сессии, яркий стиль, честная сложность.' },
-        { title: 'RuStore и Google Play', text: 'Выпускаем игры в официальных магазинах приложений.' },
-        { title: 'Открыто о разработке', text: 'Трейлеры и ролики о разработке — на наших каналах.' },
+        { title: 'Один разработчик', text: 'Каждую игру от идеи до релиза делаю сам.' },
+        { title: 'RuStore и Google Play', text: 'Выпускаю игры в официальных магазинах приложений.' },
+        { title: 'Открыто о разработке', text: 'Трейлеры и ролики о разработке — на моих каналах.' },
       ],
     },
     contacts: {
       title: 'Контакты',
-      lead: 'Вопросы, предложения о сотрудничестве или отзыв об игре — пишите.',
+      lead: 'Вопросы, предложения о сотрудничестве или отзыв об игре — пишите мне.',
       email: 'Почта',
     },
     stores: {
@@ -59,21 +59,28 @@ export const t = {
       dlcTrailerAbove: 'Трейлер дополнения — выше.',
       otherVideos: 'Ещё видео',
       inRussian: 'На русском',
-      privacy: 'Политика конфиденциальности',
       play: 'Смотреть видео',
     },
-    footer: { rights: 'Все права защищены.', privacy: 'Политика конфиденциальности' },
+    legal: {
+      title: 'Документы',
+      lead: 'Политики конфиденциальности и другие документы по играм.',
+      privacy: 'Политика конфиденциальности',
+      consent: 'Согласие на обработку персональных данных',
+      ruOnly: 'Документ доступен только на русском языке.',
+      backToGame: 'К странице игры',
+    },
+    footer: { rights: 'Все права защищены.', docs: 'Документы' },
   },
   en: {
     meta: {
-      description: 'DeorelTGames is an indie mobile games studio. Hard Cooking Simulator and more.',
+      description: 'DeorelTGames is a solo indie mobile game developer. Hard Cooking Simulator and more.',
     },
     nav: { games: 'Games', about: 'About', contacts: 'Contact' },
     langSwitch: 'RU',
     langSwitchLabel: 'Русская версия',
     hero: {
-      lead: 'We make bold mobile games you want to come back to.',
-      ctaGames: 'Our games',
+      lead: 'I make bold mobile games you want to come back to.',
+      ctaGames: 'My games',
     },
     games: {
       title: 'Games',
@@ -81,17 +88,17 @@ export const t = {
       dlcBadge: 'Expansion',
     },
     about: {
-      title: 'About the studio',
-      text: 'DeorelTGames is an independent studio making mobile games for Android. We design, code and ship our own projects, and share news, trailers and behind-the-scenes on YouTube and TikTok.',
+      title: 'About me',
+      text: 'DeorelTGames is an independent solo developer making mobile games for Android. I design, code and ship every project myself, and share news, trailers and behind-the-scenes on YouTube and TikTok.',
       points: [
-        { title: 'Mobile games', text: 'Android games with short sessions, bold style and fair challenge.' },
-        { title: 'RuStore & Google Play', text: 'Our games are released in official app stores.' },
-        { title: 'Open development', text: 'Trailers and dev videos on our channels.' },
+        { title: 'One developer', text: 'Every game, from idea to release, made by one person.' },
+        { title: 'RuStore & Google Play', text: 'My games are released in official app stores.' },
+        { title: 'Open development', text: 'Trailers and dev videos on my channels.' },
       ],
     },
     contacts: {
       title: 'Contact',
-      lead: 'Questions, partnership offers or feedback about our games — drop us a line.',
+      lead: 'Questions, partnership offers or feedback about my games — drop me a line.',
       email: 'Email',
     },
     stores: {
@@ -108,9 +115,16 @@ export const t = {
       dlcTrailerAbove: 'The expansion trailer is above.',
       otherVideos: 'More videos',
       inRussian: 'In Russian',
-      privacy: 'Privacy Policy',
       play: 'Play video',
     },
-    footer: { rights: 'All rights reserved.', privacy: 'Privacy Policy' },
+    legal: {
+      title: 'Legal',
+      lead: 'Privacy policies and other documents for each game.',
+      privacy: 'Privacy Policy',
+      consent: 'Consent to Personal Data Processing',
+      ruOnly: 'This document is available in Russian only.',
+      backToGame: 'Back to the game',
+    },
+    footer: { rights: 'All rights reserved.', docs: 'Legal' },
   },
 } as const;

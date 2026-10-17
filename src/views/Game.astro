@@ -4,7 +4,8 @@ import Embers from '../components/Embers.astro';
 import YouTube from '../components/YouTube.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 import Icon from '../components/Icon.astro';
-import { t, href, asset, type Lang } from '../i18n';
+import { t, href, type Lang } from '../i18n';
+import { docsFor } from '../legal';
 import { pickTrailer, type Game } from '../data';
 
 interface Props {
@@ -43,7 +44,7 @@ const videoProps = (v: Video) => ({
   captions: v.native ? undefined : lang,
 });
 
-const privacyUrl = asset(game.privacyPolicy) + (lang === 'en' ? '#en' : '');
+const docs = docsFor(game.slug);
 ---
 
 <Layout
@@ -63,7 +64,9 @@ const privacyUrl = asset(game.privacyPolicy) + (lang === 'en' ? '#en' : '');
           <p class="tagline fire-text">{game.tagline[lang]}</p>
           <p class="desc">{game.description[lang]}</p>
           <StoreButtons lang={lang} stores={game.stores} />
-          <a class="privacy" href={privacyUrl}>{s.game.privacy}</a>
+          <div class="docs">
+            {docs.map((doc) => <a href={href(lang, `/games/${game.slug}/${doc}/`)}>{s.legal[doc]}</a>)}
+          </div>
         </div>
         {featured && (
           <div class="media">
@@ -198,14 +201,19 @@ const privacyUrl = asset(game.privacyPolicy) + (lang === 'en' ? '#en' : '');
     margin-bottom: 28px;
   }
 
-  .privacy {
-    display: inline-block;
+  .docs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
     margin-top: 20px;
-    color: var(--muted);
     font-size: 14px;
   }
 
-  .privacy:hover {
+  .docs a {
+    color: var(--muted);
+  }
+
+  .docs a:hover {
     color: var(--text);
   }
 

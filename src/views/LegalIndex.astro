@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { t, href, type Lang } from '../i18n';
+import { games } from '../data';
+import { docsFor } from '../legal';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+---
+
+<Layout lang={lang} path="/legal/" title={s.legal.title}>
+  <section class="section">
+    <div class="container narrow">
+      <div class="section-title"><h1>{s.legal.title}</h1></div>
+      <p class="lead">{s.legal.lead}</p>
+      {games.map((g) => (
+        <div class="group">
+          <h2>{g.title}</h2>
+          <ul>
+            {docsFor(g.slug).map((doc) => (
+              <li>
+                <a href={href(lang, `/games/${g.slug}/${doc}/`)}>{s.legal[doc]} →</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .narrow {
+    max-width: 840px;
+  }
+
+  h1 {
+    font-size: clamp(32px, 5vw, 46px);
+    margin: 0;
+  }
+
+  .lead {
+    color: var(--muted);
+    margin-bottom: 36px;
+  }
+
+  .group {
+    padding: 24px;
+    margin-bottom: 18px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+
+  h2 {
+    font-size: 22px;
+    margin-bottom: 14px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  a {
+    color: var(--fire-2);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  a:hover {
+    color: var(--fire-3);
+  }
+</style>

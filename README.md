@@ -1,6 +1,6 @@
 # DeorelTGames — официальный сайт
 
-Сайт студии DeorelTGames (Mobile Games Development): https://shtrohaim.github.io/deoreltgames_official/
+Сайт DeorelTGames — инди-разработчика мобильных игр (Mobile Games Development): https://shtrohaim.github.io/deoreltgames_official/
 
 Сделан на [Astro](https://astro.build), публикуется на GitHub Pages автоматически при каждом push в `main`.
 

@@ -28,7 +28,6 @@ export interface Game {
   tagline: Localized;
   description: Localized;
   trailer: Trailer;
-  privacyPolicy: string;
   stores: Store[];
   dlc: Dlc[];
 }
