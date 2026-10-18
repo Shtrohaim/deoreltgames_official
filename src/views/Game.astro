@@ -65,7 +65,7 @@ const docs = docsFor(game.slug);
           <p class="desc">{game.description[lang]}</p>
           <StoreButtons lang={lang} stores={game.stores} />
           <div class="docs">
-            {docs.map((doc) => <a href={href(lang, `/games/${game.slug}/${doc}/`)}>{s.legal[doc]}</a>)}
+            {docs.map((doc) => <a href={href(lang, `/games/${game.slug}/${doc}/`)}>{s.legal.links[doc]}</a>)}
           </div>
         </div>
         {featured && (

@@ -5,6 +5,7 @@ import EmailLink from './EmailLink.astro';
 import Icon from './Icon.astro';
 import { t, href, type Lang } from '../i18n';
 import { games } from '../data';
+import { docsFor } from '../legal';
 
 interface Props {
   lang: Lang;
@@ -30,6 +31,12 @@ const year = new Date().getFullYear();
       <h3>{s.nav.games}</h3>
       {games.map((g) => <a href={href(lang, `/games/${g.slug}/`)}>{g.title}</a>)}
     </div>
+    {games.map((g) => (
+      <div class="col">
+        <h3>{g.title}</h3>
+        {docsFor(g.slug).map((doc) => <a href={href(lang, `/games/${g.slug}/${doc}/`)}>{s.legal.links[doc]}</a>)}
+      </div>
+    ))}
     <div class="col">
       <h3>{s.nav.contacts}</h3>
       <EmailLink class="mail">
@@ -58,7 +65,7 @@ const year = new Date().getFullYear();
 
   @media (min-width: 720px) {
     .grid {
-      grid-template-columns: 1.4fr 1fr 1.2fr;
+      grid-template-columns: 1.4fr repeat(auto-fit, minmax(180px, 1fr));
     }
   }
 

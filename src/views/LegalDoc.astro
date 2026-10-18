@@ -3,19 +3,33 @@ import Layout from '../layouts/Layout.astro';
 import Icon from '../components/Icon.astro';
 import { t, href, type Lang } from '../i18n';
 import type { Game } from '../data';
-import { getDoc, type DocId } from '../legal';
+import { getDoc, getArchivedDoc, archivedVersions, type DocId } from '../legal';
 
 interface Props {
   lang: Lang;
   /** Omit for documents about the site itself (content/legal/site/). */
   game?: Game;
   doc: DocId;
+  /** Show an archived version (content/legal/<slug>/<doc>.v<N>.<lang>.html). */
+  version?: number;
 }
-const { lang, game, doc } = Astro.props;
+const { lang, game, doc, version } = Astro.props;
 const s = t[lang];
-const legal = getDoc(game?.slug ?? 'site', doc, lang)!;
+const slug = game?.slug ?? 'site';
+const legal = (version ? getArchivedDoc(slug, doc, version, lang) : getDoc(slug, doc, lang))!;
 const title = game ? s.legal[doc] : s.legal.sitePrivacy;
-const path = game ? `/games/${game.slug}/${doc}/` : `/${doc}/`;
+const docPath = game ? `/games/${game.slug}/${doc}/` : `/${doc}/`;
+const path = version ? `${docPath}v${version}/` : docPath;
+
+const formatDate = (iso: string) =>
+  new Date(iso).toLocaleDateString(lang === 'ru' ? 'ru-RU' : 'en-US', {
+    day: lang === 'ru' ? '2-digit' : 'numeric',
+    month: lang === 'ru' ? '2-digit' : 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+const archive = archivedVersions(slug, doc);
+const archivedInfo = version ? archive.find((v) => v.version === version) : undefined;
 const back = game
   ? { href: href(lang, `/games/${game.slug}/`), label: s.legal.backToGame }
   : { href: href(lang, '/legal/'), label: s.legal.title };
@@ -28,9 +42,27 @@ const back = game
       <header>
         <span class="badge">{game?.title ?? 'DeorelTGames'}</span>
         <h1>{title}</h1>
+        {archivedInfo && (
+          <p class="archived">
+            {s.legal.inEffectUntil(archivedInfo.version, formatDate(archivedInfo.until))}.{' '}
+            <a href={href(lang, docPath)}>{s.legal.currentVersion} →</a>
+          </p>
+        )}
         {!legal.native && <p class="note">{s.legal.ruOnly}</p>}
       </header>
       <div class="prose" lang={legal.native ? lang : 'ru'} set:html={legal.html} />
+      {!version && archive.length > 0 && (
+        <aside class="versions">
+          <h2>{s.legal.previousVersions}</h2>
+          <ul>
+            {archive.map((v) => (
+              <li>
+                <a href={href(lang, `${docPath}v${v.version}/`)}>{s.legal.inEffectUntil(v.version, formatDate(v.until))}</a>
+              </li>
+            ))}
+          </ul>
+        </aside>
+      )}
     </div>
   </article>
 </Layout>
@@ -74,6 +106,42 @@ const back = game
   h1 {
     font-size: clamp(30px, 5.5vw, 48px);
     margin: 16px 0 0;
+  }
+
+  .archived {
+    margin: 16px 0 0;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    background: rgb(255 198 26 / 0.1);
+    box-shadow: inset 0 0 0 1px rgb(255 198 26 / 0.35);
+    color: var(--fire-3);
+    font-size: 15px;
+  }
+
+  .archived a {
+    color: var(--text);
+  }
+
+  .versions {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+  }
+
+  .versions h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .versions ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--muted);
+  }
+
+  .versions a {
+    color: var(--fire-2);
   }
 
   .note {
@@ -136,6 +204,24 @@ const back = game
     list-style: none;
     padding: 0;
     margin: 0 0 16px;
+  }
+
+  .prose :global(ol) {
+    margin: 0 0 16px;
+    padding-left: 24px;
+  }
+
+  .prose :global(ol li) {
+    padding-left: 4px;
+  }
+
+  .prose :global(ol li)::before {
+    display: none;
+  }
+
+  .prose :global(ol li)::marker {
+    color: var(--fire-2);
+    font-weight: 800;
   }
 
   .prose :global(li) {

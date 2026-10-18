@@ -1,0 +1,20 @@
+---
+import LegalDoc from '../../../../views/LegalDoc.astro';
+import { games, type Game } from '../../../../data';
+import { docsFor, archivedVersions, type DocId } from '../../../../legal';
+
+export function getStaticPaths() {
+  return games.flatMap((game) =>
+    docsFor(game.slug).flatMap((doc) =>
+      archivedVersions(game.slug, doc).map(({ version }) => ({
+        params: { slug: game.slug, doc, version: String(version) },
+        props: { game, doc, version },
+      })),
+    ),
+  );
+}
+
+const { game, doc, version } = Astro.props as { game: Game; doc: DocId; version: number };
+---
+
+<LegalDoc lang="ru" game={game} doc={doc} version={version} />
