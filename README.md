@@ -19,5 +19,5 @@ npm run dev
 - `content/games/*.json` — игры: описание, трейлеры (ID видео YouTube), магазины, дополнения. Новая игра = новый JSON-файл.
 - `src/i18n.ts` — тексты интерфейса на русском и английском.
 - `src/styles/global.css` — цвета и общий стиль.
-- `public/games/<игра>/privacy/` — политики конфиденциальности.
+- `content/legal/<игра или site>/` — политики и согласия (`privacy.ru.html`, `consent.en.html` и т. п.).
 
