@@ -7,13 +7,14 @@ import Socials from '../components/Socials.astro';
 import EmailLink from '../components/EmailLink.astro';
 import Icon from '../components/Icon.astro';
 import { t, href, type Lang } from '../i18n';
-import { games, studio } from '../data';
+import { games, studio, news } from '../data';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const s = t[lang];
+const latest = news[0];
 ---
 
 <Layout lang={lang} path="/">
@@ -32,6 +33,16 @@ const s = t[lang];
       </div>
     </div>
   </section>
+
+  {latest && (
+    <div class="container">
+      <a class="news-strip" href={`${href(lang, '/news/')}#${latest.slug}`}>
+        <span class="badge">{s.nav.news}</span>
+        <span class="news-title">{latest.title[lang]}</span>
+        <span class="more">→</span>
+      </a>
+    </div>
+  )}
 
   <section class="section" id="games">
     <div class="container">
@@ -89,6 +100,27 @@ const s = t[lang];
 </Layout>
 
 <style>
+  .news-strip {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 28px;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    text-decoration: none;
+    background: var(--surface);
+    box-shadow: inset 0 0 0 1px rgb(255 120 0 / 0.3);
+  }
+
+  .news-strip:hover {
+    box-shadow: inset 0 0 0 1px var(--fire-2);
+  }
+
+  .news-title {
+    font-weight: 700;
+    flex: 1;
+  }
+
   .hero {
     position: relative;
     min-height: min(88vh, 820px);

@@ -4,7 +4,7 @@ import Embers from '../components/Embers.astro';
 import YouTube from '../components/YouTube.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 import Icon from '../components/Icon.astro';
-import { t, href, type Lang } from '../i18n';
+import { t, href, asset, type Lang } from '../i18n';
 import { docsFor } from '../legal';
 import { pickTrailer, type Game } from '../data';
 
@@ -81,11 +81,20 @@ const docs = docsFor(game.slug);
     <div class="container">
       <div class="section-title"><h2>{s.game.screenshots}</h2></div>
       <div class="shots">
-        {[1, 2, 3, 4].map(() => (
-          <div class="shot">
-            <span>{s.game.screenshotsSoon}</span>
-          </div>
-        ))}
+        {game.screenshots?.length
+          ? game.screenshots.map((sh) => {
+              const src = asset(`/screens/${game.slug}/${lang}/${sh.file}.webp`);
+              return (
+                <a class="shot-img" href={src} target="_blank">
+                  <img src={src} alt={sh.caption[lang]} width="1280" height="720" loading="lazy" />
+                </a>
+              );
+            })
+          : [1, 2, 3, 4].map(() => (
+              <div class="shot">
+                <span>{s.game.screenshotsSoon}</span>
+              </div>
+            ))}
       </div>
     </div>
   </section>
@@ -99,7 +108,13 @@ const docs = docsFor(game.slug);
             <div class="dlc-info">
               <span class="badge">{s.game.dlcTitle}</span>
               <h2>{d.title[lang]}</h2>
+              {d.release && <p class="release fire-text">{d.release[lang]}</p>}
               <p>{d.description[lang]}</p>
+              {d.features && (
+                <ul class="features">
+                  {d.features[lang].map((f) => <li>{f}</li>)}
+                </ul>
+              )}
               {!v && <p class="hint">{s.game.dlcTrailerAbove}</p>}
             </div>
             {v && (
@@ -239,6 +254,24 @@ const docs = docsFor(game.slug);
     border: 1px dashed var(--line);
   }
 
+  .shot-img {
+    display: block;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+
+  .shot-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform 0.2s ease;
+  }
+
+  .shot-img:hover img {
+    transform: scale(1.03);
+  }
+
   /* DLC */
   .dlc {
     padding-top: 0;
@@ -269,6 +302,24 @@ const docs = docsFor(game.slug);
   .dlc-info p {
     color: var(--muted);
     font-size: 18px;
+  }
+
+  .release {
+    font-family: var(--font-display);
+    font-size: 20px;
+    width: fit-content;
+    margin-bottom: 8px;
+  }
+
+  .features {
+    color: var(--muted);
+    font-size: 16px;
+    padding-left: 20px;
+    margin: 12px 0 0;
+  }
+
+  .features li + li {
+    margin-top: 6px;
   }
 
   .hint {

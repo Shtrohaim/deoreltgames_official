@@ -19,7 +19,7 @@ export const t = {
     meta: {
       description: 'DeorelTGames — инди-разработчик мобильных игр. Hard Cooking Simulator и другие проекты.',
     },
-    nav: { games: 'Игры', about: 'Обо мне', contacts: 'Контакты' },
+    nav: { games: 'Игры', news: 'Новости', about: 'Обо мне', contacts: 'Контакты' },
     langSwitch: 'EN',
     langSwitchLabel: 'English version',
     hero: {
@@ -60,6 +60,13 @@ export const t = {
       otherVideos: 'Ещё видео',
       inRussian: 'На русском',
       play: 'Смотреть видео',
+      close: 'Закрыть',
+    },
+    news: {
+      title: 'Новости',
+      lead: 'Новые игры, обновления и дополнения.',
+      toGame: 'К странице игры',
+      date: (d: string) => new Date(d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }),
     },
     legal: {
       title: 'Документы',
@@ -87,7 +94,7 @@ export const t = {
     meta: {
       description: 'DeorelTGames is a solo indie mobile game developer. Hard Cooking Simulator and more.',
     },
-    nav: { games: 'Games', about: 'About', contacts: 'Contact' },
+    nav: { games: 'Games', news: 'News', about: 'About', contacts: 'Contact' },
     langSwitch: 'RU',
     langSwitchLabel: 'Русская версия',
     hero: {
@@ -128,6 +135,13 @@ export const t = {
       otherVideos: 'More videos',
       inRussian: 'In Russian',
       play: 'Play video',
+      close: 'Close',
+    },
+    news: {
+      title: 'News',
+      lead: 'New games, updates and expansions.',
+      toGame: 'Go to the game',
+      date: (d: string) => new Date(d).toLocaleDateString('en-US', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }),
     },
     legal: {
       title: 'Legal',

@@ -2,8 +2,14 @@
   "slug": "hard-cooking-simulator",
   "title": "Hard Cooking Simulator",
   "order": 1,
-  "genre": { "ru": "Кулинарный симулятор", "en": "Cooking simulator" },
-  "tagline": { "ru": "Попробуй не сжечь!", "en": "Try not to burn it!" },
+  "genre": {
+    "ru": "Кулинарный симулятор",
+    "en": "Cooking simulator"
+  },
+  "tagline": {
+    "ru": "Попробуй не сжечь!",
+    "en": "Try not to burn it!"
+  },
   "description": {
     "ru": "Сковородка, огонь и секунды до катастрофы. Готовь блюда, следи за жаром и не дай ужину превратиться в угли.",
     "en": "A pan, a fire and seconds to disaster. Cook dishes, watch the heat and don't let dinner turn to charcoal."
@@ -12,21 +18,115 @@
     "ru": "TdFDSprMFrg",
     "en": null
   },
+  "screenshots": [
+    {
+      "file": "01_menu",
+      "caption": {
+        "ru": "Полти пришла на кухню",
+        "en": "Polti is in the kitchen"
+      }
+    },
+    {
+      "file": "02_g_flip",
+      "caption": {
+        "ru": "Подбрасывай и переворачивай",
+        "en": "Toss it. Flip it."
+      }
+    },
+    {
+      "file": "03_g_serve",
+      "caption": {
+        "ru": "Подай на тарелку вовремя",
+        "en": "Serve before it burns"
+      }
+    },
+    {
+      "file": "04_g_win",
+      "caption": {
+        "ru": "Забери все звёзды",
+        "en": "Earn all the stars"
+      }
+    },
+    {
+      "file": "05_levels_halloween",
+      "caption": {
+        "ru": "4 хэллоуинских блюда",
+        "en": "4 Halloween dishes"
+      }
+    },
+    {
+      "file": "06_challenges",
+      "caption": {
+        "ru": "Испытания с подвохом",
+        "en": "Tricky challenges"
+      }
+    },
+    {
+      "file": "07_g_classic",
+      "caption": {
+        "ru": "10 блюд и 2 кухни",
+        "en": "10 dishes, 2 kitchens"
+      }
+    },
+    {
+      "file": "08_pans",
+      "caption": {
+        "ru": "17 сковородок с особыми силами",
+        "en": "17 pans with special powers"
+      }
+    },
+    {
+      "file": "09_modes",
+      "caption": {
+        "ru": "3 режима игры",
+        "en": "3 game modes"
+      }
+    }
+  ],
   "legacyPrivacyPolicy": "https://shtrohaim.github.io/hard-cooking-simulator-privacy/",
   "stores": [
-    { "id": "rustore", "url": "https://www.rustore.ru/catalog/app/com.DeoTGames.HardCookingSimulator", "status": "available" },
-    { "id": "google-play", "url": null, "status": "coming-soon" }
+    {
+      "id": "rustore",
+      "url": "https://www.rustore.ru/catalog/app/com.DeoTGames.HardCookingSimulator",
+      "status": "available"
+    },
+    {
+      "id": "google-play",
+      "url": null,
+      "status": "coming-soon"
+    }
   ],
   "dlc": [
     {
-      "title": { "ru": "Проделки Полти", "en": "Polti's Tricks" },
+      "title": {
+        "ru": "Проделки Полти",
+        "en": "Polti's Tricks"
+      },
       "description": {
-        "ru": "Новое дополнение: Полти снова хулиганит на кухне.",
-        "en": "A new expansion: Polti is up to mischief in the kitchen again."
+        "ru": "Хэллоуинское дополнение: на кухню заселилась Полти — озорной полтергейст. Она разжигает конфорки, толкает сковородку и сбрасывает блюда, пока ты пытаешься приготовить ужин.",
+        "en": "The Halloween expansion: Polti, a mischievous poltergeist, has moved into the kitchen. She lights burners, shoves your pan and knocks dishes off while you try to cook dinner."
       },
       "trailer": {
         "ru": "48AhzwLPAlc",
         "en": "0sFxoL4QGtU"
+      },
+      "features": {
+        "ru": [
+          "Новый режим «Хэллоуин» с жуткой кухней: огонь, молнии за окном и живой свет конфорок",
+          "4 новых блюда: тыквенный блин, ведьмин стейк, котлета-монстр и корень мандрагоры",
+          "Новые испытания «Во тьме» и «БУ!»",
+          "Хэллоуинские мастер-сковородки и сковородка-талисман в подарок от Полти"
+        ],
+        "en": [
+          "A new Halloween mode with a spooky kitchen: fire, lightning outside and flickering burner light",
+          "4 new dishes: pumpkin pancake, witch steak, monster cutlet and mandrake tuber",
+          "New challenges: In the Dark and BOO!",
+          "Halloween master pans and a charm frying pan, a gift from Polti"
+        ]
+      },
+      "release": {
+        "ru": "Выходит на этой неделе — вместе с релизом в Google Play",
+        "en": "Coming this week — together with our Google Play launch"
       }
     }
   ]
