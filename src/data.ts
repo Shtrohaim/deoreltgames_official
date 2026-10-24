@@ -47,6 +47,8 @@ export interface Game {
   description: Localized;
   trailer: Trailer;
   screenshots?: Screenshot[];
+  /** Key art without text: 16:9 card image and optional hero background (paths in /public). */
+  cover?: { card: string; hero?: string; og?: string };
   stores: Store[];
   dlc: Dlc[];
 }

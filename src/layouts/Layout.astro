@@ -15,9 +15,11 @@ interface Props {
   path: string;
   title?: string;
   description?: string;
+  /** Social preview image, path in /public. */
+  image?: string;
 }
 
-const { lang, path, title, description } = Astro.props;
+const { lang, path, title, description, image } = Astro.props;
 const fullTitle = title ? `${title} — DeorelTGames` : 'DeorelTGames — Mobile Games Development';
 const desc = description ?? t[lang].meta.description;
 const abs = (l: Lang) => new URL(href(l, path), Astro.site).href;
@@ -41,6 +43,8 @@ const abs = (l: Lang) => new URL(href(l, path), Astro.site).href;
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:url" content={abs(lang)} />
+    {image && <meta property="og:image" content={new URL(asset(image), Astro.site).href} />}
+    {image && <meta name="twitter:card" content="summary_large_image" />}
     <meta property="og:locale" content={lang === 'ru' ? 'ru_RU' : 'en_US'} />
   </head>
   <body>

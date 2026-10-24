@@ -50,7 +50,7 @@ const latest = news[0];
       <div class="games">
         {games.map((g) => (
           <a class="card" href={href(lang, `/games/${g.slug}/`)}>
-            <GameCover title={g.title} tagline={g.tagline[lang]} />
+            <GameCover title={g.title} tagline={g.tagline[lang]} image={g.cover?.card} />
             <div class="card-body">
               <div class="tags">
                 <span class="badge">{g.genre[lang]}</span>

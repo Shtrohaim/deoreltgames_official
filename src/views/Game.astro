@@ -52,8 +52,12 @@ const docs = docsFor(game.slug);
   path={`/games/${game.slug}/`}
   title={game.title}
   description={`${game.tagline[lang]} ${game.description[lang]}`}
+  image={game.cover?.og ?? game.cover?.card}
 >
   <section class="hero">
+    {game.cover?.hero && (
+      <div class="hero-art" style={`background-image: url('${asset(game.cover.hero)}')`} aria-hidden="true"></div>
+    )}
     <div class="backdrop"><Embers /></div>
     <div class="container">
       <a class="back" href={`${href(lang, '/')}#games`}><Icon name="arrow-left" />{s.game.back}</a>
@@ -157,6 +161,19 @@ const docs = docsFor(game.slug);
       radial-gradient(ellipse 50% 60% at 78% 45%, rgb(255 90 0 / 0.22), transparent 70%),
       radial-gradient(ellipse 40% 50% at 0% 100%, rgb(255 60 0 / 0.14), transparent 70%),
       var(--bg);
+  }
+
+  /* Key art fading in from the right, behind the hero content. */
+  .hero-art {
+    position: absolute;
+    inset: 0 0 0 auto;
+    width: min(100%, 900px);
+    background-position: center 35%;
+    background-size: cover;
+    opacity: 0.32;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 55%);
+    pointer-events: none;
   }
 
   .hero .container {

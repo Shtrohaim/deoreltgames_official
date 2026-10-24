@@ -18,6 +18,11 @@
     "ru": "TdFDSprMFrg",
     "en": null
   },
+  "cover": {
+    "card": "/covers/hard-cooking-simulator/card.webp",
+    "hero": "/covers/hard-cooking-simulator/art.webp",
+    "og": "/covers/hard-cooking-simulator/og.jpg"
+  },
   "screenshots": [
     {
       "file": "01_menu",
