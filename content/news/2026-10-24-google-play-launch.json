@@ -1,0 +1,24 @@
+{
+  "slug": "google-play-launch",
+  "date": "2026-10-24",
+  "game": "hard-cooking-simulator",
+  "image": "/screens/hard-cooking-simulator/{lang}/05_levels_halloween.webp",
+  "title": {
+    "ru": "Hard Cooking Simulator вышел в Google Play — сразу с «Проделками Полти»",
+    "en": "Hard Cooking Simulator is out on Google Play — with Polti's Tricks included"
+  },
+  "text": {
+    "ru": [
+      "Hard Cooking Simulator теперь в Google Play! Игру можно скачать уже сейчас — и сразу с хэллоуинским дополнением «Проделки Полти».",
+      "В новой версии: режим «Хэллоуин» с жуткой кухней, 4 новых блюда (тыквенный блин, ведьмин стейк, котлета-монстр и корень мандрагоры), испытания «Во тьме» и «БУ!», хэллоуинские мастер-сковородки и сковородка-талисман в подарок от Полти. А ещё в игре появился английский язык.",
+      "В RuStore обновление задерживается: «Проделки Полти» выйдут там на следующей неделе. Спасибо всем, кто ждёт, — как только обновление станет доступно, напишу здесь.",
+      "Не хочется ждать? Дополнение уже доступно в Google Play. Ссылки на оба магазина — на странице игры."
+    ],
+    "en": [
+      "Hard Cooking Simulator is now on Google Play! You can download it right away — together with the Polti's Tricks Halloween expansion.",
+      "The new version brings a Halloween mode with a spooky kitchen, 4 new dishes (pumpkin pancake, witch steak, monster cutlet and mandrake tuber), the In the Dark and BOO! challenges, Halloween master pans and a free charm pan from Polti. The game is also available in English now.",
+      "On RuStore the update is delayed: Polti's Tricks will arrive there next week. Thanks to everyone who's waiting — I'll post here as soon as the update is live.",
+      "Don't want to wait? The expansion is already available on Google Play. Links to both stores are on the game page."
+    ]
+  }
+}
