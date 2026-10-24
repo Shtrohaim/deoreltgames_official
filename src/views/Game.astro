@@ -4,6 +4,7 @@ import Embers from '../components/Embers.astro';
 import YouTube from '../components/YouTube.astro';
 import StoreButtons from '../components/StoreButtons.astro';
 import Icon from '../components/Icon.astro';
+import ScreenshotSlider from '../components/ScreenshotSlider.astro';
 import { t, href, asset, type Lang } from '../i18n';
 import { docsFor } from '../legal';
 import { pickTrailer, type Game } from '../data';
@@ -84,22 +85,23 @@ const docs = docsFor(game.slug);
   <section class="section">
     <div class="container">
       <div class="section-title"><h2>{s.game.screenshots}</h2></div>
-      <div class="shots">
-        {game.screenshots?.length
-          ? game.screenshots.map((sh) => {
-              const src = asset(`/screens/${game.slug}/${lang}/${sh.file}.webp`);
-              return (
-                <a class="shot-img" href={src} target="_blank">
-                  <img src={src} alt={sh.caption[lang]} width="1280" height="720" loading="lazy" />
-                </a>
-              );
-            })
-          : [1, 2, 3, 4].map(() => (
-              <div class="shot">
-                <span>{s.game.screenshotsSoon}</span>
-              </div>
-            ))}
-      </div>
+      {game.screenshots?.length ? (
+        <ScreenshotSlider
+          shots={game.screenshots.map((sh) => ({
+            src: asset(`/screens/${game.slug}/${lang}/${sh.file}.webp`),
+            caption: sh.caption[lang],
+          }))}
+          labels={s.game.shots}
+        />
+      ) : (
+        <div class="shots">
+          {[1, 2, 3, 4].map(() => (
+            <div class="shot">
+              <span>{s.game.screenshotsSoon}</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   </section>
 
@@ -269,24 +271,6 @@ const docs = docsFor(game.slug);
       repeating-linear-gradient(-45deg, transparent 0 14px, rgb(255 120 0 / 0.04) 14px 16px),
       var(--surface);
     border: 1px dashed var(--line);
-  }
-
-  .shot-img {
-    display: block;
-    border-radius: var(--radius);
-    overflow: hidden;
-    box-shadow: inset 0 0 0 1px var(--line);
-  }
-
-  .shot-img img {
-    display: block;
-    width: 100%;
-    height: auto;
-    transition: transform 0.2s ease;
-  }
-
-  .shot-img:hover img {
-    transform: scale(1.03);
   }
 
   /* DLC */

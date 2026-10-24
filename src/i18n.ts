@@ -60,6 +60,7 @@ export const t = {
       otherVideos: 'Ещё видео',
       inRussian: 'На русском',
       play: 'Смотреть видео',
+      shots: { prev: 'Предыдущий скриншот', next: 'Следующий скриншот', close: 'Закрыть', open: 'Открыть скриншот' },
       close: 'Закрыть',
     },
     news: {
@@ -135,6 +136,7 @@ export const t = {
       otherVideos: 'More videos',
       inRussian: 'In Russian',
       play: 'Play video',
+      shots: { prev: 'Previous screenshot', next: 'Next screenshot', close: 'Close', open: 'Open screenshot' },
       close: 'Close',
     },
     news: {

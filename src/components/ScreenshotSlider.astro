@@ -1,0 +1,356 @@
+---
+// Screenshots already carry their own titles, so captions are used only as alt text.
+// Screenshot carousel: native scroll-snap (swipe on phones), arrow buttons and dots.
+// Clicking a slide opens it in a full-screen modal with the same navigation.
+// Without JavaScript the slides are plain links to the image files.
+import Icon from './Icon.astro';
+
+interface Shot {
+  src: string;
+  caption: string;
+}
+
+interface Props {
+  shots: Shot[];
+  labels: { prev: string; next: string; close: string; open: string };
+}
+const { shots, labels } = Astro.props;
+---
+
+<div class="slider" data-slider>
+  <div class="track" data-track>
+    {shots.map((shot, i) => (
+      <a class="slide" href={shot.src} data-index={i} data-caption={shot.caption} aria-label={`${labels.open}: ${shot.caption}`}>
+        <img src={shot.src} alt={shot.caption} width="1280" height="720" loading={i < 2 ? 'eager' : 'lazy'} />
+      </a>
+    ))}
+  </div>
+  <button class="nav prev" type="button" data-prev aria-label={labels.prev}><Icon name="arrow-left" /></button>
+  <button class="nav next" type="button" data-next aria-label={labels.next}><Icon name="arrow-left" /></button>
+  <div class="dots" data-dots>
+    {shots.map((_, i) => <button type="button" aria-label={`${i + 1} / ${shots.length}`} data-dot={i}></button>)}
+  </div>
+
+  <dialog class="viewer" data-viewer aria-label={labels.open}>
+    <figure>
+      <img data-viewer-img alt="" />
+      <figcaption>
+        <span class="count" data-viewer-count></span>
+      </figcaption>
+    </figure>
+    <button class="v-btn v-close" type="button" data-viewer-close aria-label={labels.close}>✕</button>
+    <button class="v-btn v-prev" type="button" data-viewer-prev aria-label={labels.prev}><Icon name="arrow-left" /></button>
+    <button class="v-btn v-next" type="button" data-viewer-next aria-label={labels.next}><Icon name="arrow-left" /></button>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-slider]').forEach((slider) => {
+    const track = slider.querySelector<HTMLElement>('[data-track]')!;
+    const slides = [...track.querySelectorAll<HTMLAnchorElement>('.slide')];
+    const dots = [...slider.querySelectorAll<HTMLButtonElement>('[data-dot]')];
+    const viewer = slider.querySelector<HTMLDialogElement>('[data-viewer]')!;
+    const vImg = viewer.querySelector<HTMLImageElement>('[data-viewer-img]')!;
+    const vCount = viewer.querySelector<HTMLElement>('[data-viewer-count]')!;
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- Carousel ---
+    // Slide centre in the track's scroll coordinates (offsetParent is the slider, not the track).
+    const middle = (s: HTMLElement) => s.offsetLeft - track.offsetLeft + s.offsetWidth / 2;
+    const current = () => {
+      const center = track.scrollLeft + track.clientWidth / 2;
+      let best = 0;
+      slides.forEach((s, i) => {
+        if (Math.abs(middle(s) - center) < Math.abs(middle(slides[best]) - center)) best = i;
+      });
+      return best;
+    };
+    const goTo = (i: number) => {
+      const target = slides[(i + slides.length) % slides.length];
+      track.scrollTo({
+        left: middle(target) - track.clientWidth / 2,
+        behavior: reducedMotion ? 'auto' : 'smooth',
+      });
+    };
+    const updateDots = () => {
+      const i = current();
+      dots.forEach((d, j) => d.setAttribute('aria-current', String(i === j)));
+    };
+    slider.querySelector('[data-prev]')!.addEventListener('click', () => goTo(current() - 1));
+    slider.querySelector('[data-next]')!.addEventListener('click', () => goTo(current() + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => goTo(i)));
+    track.addEventListener('scroll', updateDots, { passive: true });
+    updateDots();
+
+    // --- Modal viewer ---
+    let open = 0;
+    const show = (i: number) => {
+      open = (i + slides.length) % slides.length;
+      const slide = slides[open];
+      vImg.src = slide.href;
+      vImg.alt = slide.dataset.caption ?? '';
+      vCount.textContent = `${open + 1} / ${slides.length}`;
+    };
+    slides.forEach((slide, i) =>
+      slide.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        viewer.showModal();
+        document.documentElement.classList.add('modal-open');
+      }),
+    );
+    viewer.addEventListener('close', () => {
+      document.documentElement.classList.remove('modal-open');
+      goTo(open);
+    });
+    viewer.querySelector('[data-viewer-close]')!.addEventListener('click', () => viewer.close());
+    viewer.querySelector('[data-viewer-prev]')!.addEventListener('click', () => show(open - 1));
+    viewer.querySelector('[data-viewer-next]')!.addEventListener('click', () => show(open + 1));
+    // Click on the dark area around the image closes the viewer.
+    viewer.addEventListener('click', (e) => {
+      if (e.target === viewer || (e.target as HTMLElement).tagName === 'FIGURE') viewer.close();
+    });
+    viewer.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(open - 1);
+      if (e.key === 'ArrowRight') show(open + 1);
+    });
+    // Swipe inside the viewer.
+    let startX: number | null = null;
+    viewer.addEventListener('pointerdown', (e) => (startX = e.clientX));
+    viewer.addEventListener('pointerup', (e) => {
+      if (startX === null) return;
+      const dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 50) show(open + (dx < 0 ? 1 : -1));
+    });
+  });
+</script>
+
+<style>
+  .slider {
+    position: relative;
+  }
+
+  .track {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 12%;
+    padding: 4px 12% 12px;
+    margin-inline: calc(var(--gutter) * -1);
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .slide {
+    position: relative;
+    flex: 0 0 min(76%, 820px);
+    scroll-snap-align: center;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px var(--line), 0 18px 40px -24px rgb(0 0 0 / 0.8);
+    cursor: zoom-in;
+    text-decoration: none;
+  }
+
+  .slide img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .slide:hover img {
+    transform: scale(1.02);
+  }
+
+  .nav {
+    position: absolute;
+    top: calc(50% - 30px);
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: var(--fire);
+    color: #1a0d04;
+    cursor: pointer;
+    box-shadow: var(--glow);
+    transition: transform 0.15s ease;
+  }
+
+  .nav:hover {
+    transform: scale(1.08);
+  }
+
+  .nav :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .prev {
+    left: 2%;
+  }
+
+  .next {
+    right: 2%;
+  }
+
+  .next :global(svg),
+  .v-next :global(svg) {
+    transform: scaleX(-1);
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .dots button {
+    width: 9px;
+    height: 9px;
+    padding: 0;
+    border: 0;
+    border-radius: 99px;
+    background: var(--line);
+    cursor: pointer;
+    transition: width 0.2s ease, background 0.2s ease;
+  }
+
+  .dots button[aria-current='true'] {
+    width: 26px;
+    background: var(--fire-2);
+  }
+
+  @media (max-width: 719px) {
+    .track {
+      padding-inline: 6%;
+      scroll-padding-inline: 6%;
+      gap: 10px;
+    }
+
+    .slide {
+      flex-basis: 88%;
+    }
+
+    .nav {
+      display: none;
+    }
+  }
+
+  /* Viewer */
+  .viewer {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+  }
+
+  .viewer::backdrop {
+    background: rgb(5 3 2 / 0.92);
+    backdrop-filter: blur(4px);
+  }
+
+  .viewer figure {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    padding: 56px 72px 24px;
+  }
+
+  .viewer img {
+    max-width: 100%;
+    max-height: calc(100dvh - 140px);
+    border-radius: var(--radius);
+    box-shadow: 0 0 0 1px rgb(255 120 0 / 0.35), 0 30px 80px -20px rgb(0 0 0 / 0.9);
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .viewer figcaption {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    font-weight: 700;
+  }
+
+  .count {
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .v-btn {
+    position: fixed;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border: 0;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.08);
+    color: var(--text);
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .v-btn:hover {
+    background: var(--fire);
+    color: #1a0d04;
+  }
+
+  .v-btn :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+
+  .v-close {
+    top: 14px;
+    right: 14px;
+  }
+
+  .v-prev {
+    left: 14px;
+    top: calc(50% - 24px);
+  }
+
+  .v-next {
+    right: 14px;
+    top: calc(50% - 24px);
+  }
+
+  @media (max-width: 719px) {
+    .viewer figure {
+      padding: 56px 8px 16px;
+    }
+
+    .v-prev,
+    .v-next {
+      top: auto;
+      bottom: 14px;
+    }
+  }
+
+  :global(html.modal-open) {
+    overflow: hidden;
+  }
+</style>
