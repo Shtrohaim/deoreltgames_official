@@ -11,7 +11,7 @@ const { title, tagline, image } = Astro.props;
 ---
 
 {image ? (
-  <img class="cover-img" src={asset(image)} alt="" width="960" height="540" loading="lazy" />
+  <img class="cover-img" src={asset(image)} alt="" width="1280" height="720" loading="lazy" />
 ) : (
 <div class="cover" aria-hidden="true">
   <span class="glow"></span>
