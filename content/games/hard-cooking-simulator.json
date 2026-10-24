@@ -92,8 +92,8 @@
     },
     {
       "id": "google-play",
-      "url": null,
-      "status": "coming-soon"
+      "url": "https://play.google.com/store/apps/details?id=com.DeoTGames.HardCookingSimulator",
+      "status": "available"
     }
   ],
   "dlc": [
@@ -125,8 +125,8 @@
         ]
       },
       "release": {
-        "ru": "Выходит на этой неделе — вместе с релизом в Google Play",
-        "en": "Coming this week — together with our Google Play launch"
+        "ru": "Уже вышло — обновите игру",
+        "en": "Out now — update the game"
       }
     }
   ]

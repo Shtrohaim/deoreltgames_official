@@ -47,7 +47,7 @@ export const t = {
     },
     stores: {
       rustore: 'Скачать в RuStore',
-      'google-play': 'Google Play',
+      'google-play': 'Скачать в Google Play',
       soon: 'скоро',
     },
     game: {
@@ -122,7 +122,7 @@ export const t = {
     },
     stores: {
       rustore: 'Get it on RuStore',
-      'google-play': 'Google Play',
+      'google-play': 'Get it on Google Play',
       soon: 'coming soon',
     },
     game: {
